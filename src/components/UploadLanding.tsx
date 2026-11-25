@@ -78,8 +78,8 @@ export function UploadLanding({
           <span className="text-[#00674F]">without leaving your device.</span>
         </h1>
         <p className="mt-3 max-w-2xl text-sm text-[#1B1C15]/70 sm:text-base">
-          Drop your <code className="rounded bg-[#F4EDD9] px-1.5 py-0.5 text-[#00674F]">Basic_LinkedInDataExport.zip</code>{' '}
-          to search connections by company, title, or email wildcards, explore 10,000+ messages, and audit your ad profile—even offline.
+          Drop your LinkedIn data export <code className="rounded bg-[#F4EDD9] px-1.5 py-0.5 text-[#00674F]">.zip</code>{' '}
+          (Basic or Complete archive) to search connections by company, title, or email wildcards, explore 10,000+ messages, and audit your ad profile—even offline.
         </p>
       </div>
 
@@ -242,7 +242,15 @@ export function UploadLanding({
         </label>
 
         <p className="text-center sm:text-right">
-          Get your export: LinkedIn → <span className="font-medium text-slate-700">Settings & Privacy → Data Privacy → Get a copy of your data</span>
+          Get your export:{' '}
+          <a
+            href="https://www.linkedin.com/mypreferences/d/download-my-data"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-[#00674F] underline decoration-[#00674F]/40 hover:text-[#1B1C15]"
+          >
+            LinkedIn → Settings &amp; Privacy → Download my data
+          </a>
         </p>
       </div>
 

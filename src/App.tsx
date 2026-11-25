@@ -25,6 +25,7 @@ import {
 import type { LinkedInDataset, SavedQuery } from './types/linkedin';
 import { parseLinkedInZip } from './lib/linkedinParser';
 import { mergeLinkedInDatasets, type MergeSummary } from './lib/mergeDataset';
+import { getOfflineInstallGuidance } from './lib/browserDetect';
 import {
   clearAllLocalData,
   getSessionOnlyMode,
@@ -274,6 +275,7 @@ export function App() {
   }
 
   const connectionsCount = dataset.tables.connections?.length ?? 0;
+  const installGuidance = getOfflineInstallGuidance();
 
   return (
     <div className="relative flex min-h-screen flex-col lg:flex-row">
@@ -295,7 +297,14 @@ export function App() {
       {/* Desktop Sidebar */}
       <aside className="glass-panel hidden w-64 shrink-0 flex-col gap-5 border-r border-[#EAE6D7] p-4 lg:flex">
         <div className="px-2 pt-1">
-          <Logo size={32} />
+          <button
+            type="button"
+            onClick={() => handleNavigate('overview')}
+            className="cursor-pointer text-left transition-opacity hover:opacity-80"
+            title="Go to Overview"
+          >
+            <Logo size={32} />
+          </button>
         </div>
 
         <nav className="space-y-1">
@@ -358,7 +367,7 @@ export function App() {
             </p>
           </div>
 
-          {installPrompt && (
+          {installPrompt ? (
             <button
               type="button"
               onClick={handleInstallPwa}
@@ -366,6 +375,16 @@ export function App() {
             >
               <Download className="h-3.5 w-3.5" /> Install Offline App
             </button>
+          ) : (
+            <div className="rounded-xl border border-[#EAE6D7] bg-[#FBFBF8] p-2.5 text-[11px] text-[#1B1C15]/80">
+              <div className="flex items-center gap-1.5 font-semibold text-[#1B1C15]">
+                <Download className="h-3.5 w-3.5 shrink-0 text-[#00674F]" />
+                {installGuidance.label}
+              </div>
+              <p className="mt-0.5 text-[10px] leading-relaxed text-[#1B1C15]/65">
+                {installGuidance.instructions}
+              </p>
+            </div>
           )}
 
           <button
@@ -402,7 +421,14 @@ export function App() {
 
       {/* Mobile / Tablet Header */}
       <header className="glass-panel sticky top-0 z-30 flex items-center justify-between border-b border-slate-200/80 px-4 py-3 lg:hidden">
-        <Logo size={28} />
+        <button
+          type="button"
+          onClick={() => handleNavigate('overview')}
+          className="cursor-pointer text-left transition-opacity hover:opacity-80"
+          title="Go to Overview"
+        >
+          <Logo size={28} />
+        </button>
         <div className="flex items-center gap-2">
           <button
             type="button"
