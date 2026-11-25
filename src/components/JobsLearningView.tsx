@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { BookOpen, Briefcase, Building2, FileText, GraduationCap, Search } from 'lucide-react';
 import type { ArticleRecord, LinkedInDataset } from '../types/linkedin';
 import { createPatternMatcher } from '../lib/wildcard';
@@ -104,6 +104,7 @@ export function LearningView({ dataset }: { dataset: LinkedInDataset }) {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'in_progress' | 'saved'>('all');
   const [activeArticle, setActiveArticle] = useState<ArticleRecord | null>(null);
+  const readerRef = useRef<HTMLDivElement | null>(null);
 
   const learning = dataset.tables.learning ?? [];
   const articles = dataset.articles ?? [];
@@ -129,6 +130,19 @@ export function LearningView({ dataset }: { dataset: LinkedInDataset }) {
     const matcher = createPatternMatcher(search);
     return articles.filter((a) => !search.trim() || matcher(`${a.title} ${a.textContent}`));
   }, [articles, search]);
+
+  useEffect(() => {
+    if (tab === 'articles' && !activeArticle && filteredArticles.length > 0) {
+      setActiveArticle(filteredArticles[0]);
+    }
+  }, [tab, activeArticle, filteredArticles]);
+
+  const handleSelectArticle = (art: ArticleRecord) => {
+    setActiveArticle(art);
+    setTimeout(() => {
+      readerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 30);
+  };
 
   return (
     <div className="space-y-5">
@@ -198,33 +212,41 @@ export function LearningView({ dataset }: { dataset: LinkedInDataset }) {
                 <button
                   key={art.filename}
                   type="button"
-                  onClick={() => setActiveArticle(art)}
-                  className={`glass-card w-full rounded-2xl p-4 text-left transition ${
+                  onClick={() => handleSelectArticle(art)}
+                  className={`glass-card w-full cursor-pointer rounded-2xl p-4 text-left transition ${
                     activeArticle?.filename === art.filename
-                      ? 'border-emerald-400 bg-emerald-50/80'
-                      : 'hover:border-slate-300'
+                      ? 'border-[#00674F] bg-[#00674F]/8 ring-1 ring-[#00674F]/30'
+                      : 'hover:border-[#1B1C15]/30'
                   }`}
                 >
-                  <p className="text-xs font-semibold text-slate-900">{art.title}</p>
-                  <p className="mt-1 text-[11px] font-medium text-emerald-700">{art.date || art.filename}</p>
-                  <p className="mt-2 line-clamp-2 text-xs text-slate-600">{art.textContent}</p>
+                  <p className="text-xs font-semibold text-[#1B1C15]">{art.title}</p>
+                  <p className="mt-1 text-[11px] font-medium text-[#00674F]">{art.date || art.filename}</p>
+                  <p className="mt-2 line-clamp-2 text-xs text-[#1B1C15]/65">{art.textContent}</p>
                 </button>
               ))
             )}
           </div>
 
-          <div className="glass-card min-w-0 rounded-2xl p-6 lg:col-span-7">
+          <div ref={readerRef} className="glass-card min-w-0 rounded-2xl p-6 lg:col-span-7">
             {activeArticle ? (
-              <article className="prose prose-slate prose-sm max-w-none">
-                <h2 className="text-lg font-bold text-slate-900">{activeArticle.title}</h2>
-                <p className="mb-4 text-xs text-slate-500">{activeArticle.date}</p>
-                <div
-                  className="space-y-3 text-xs leading-relaxed text-slate-700"
-                  dangerouslySetInnerHTML={{ __html: activeArticle.htmlBody }}
-                />
+              <article className="max-w-none space-y-3">
+                <h2 className="font-editorial text-xl font-normal text-[#1B1C15]">{activeArticle.title}</h2>
+                <p className="border-b border-[#EAE6D7] pb-3 text-xs text-[#1B1C15]/55">
+                  {activeArticle.date || activeArticle.filename}
+                </p>
+                {activeArticle.htmlBody.trim() ? (
+                  <div
+                    className="space-y-3 text-sm leading-relaxed text-[#1B1C15]/85 [&_a]:text-[#00674F] [&_a]:underline [&_h1]:text-lg [&_h1]:font-semibold [&_h2]:text-base [&_h2]:font-semibold [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5"
+                    dangerouslySetInnerHTML={{ __html: activeArticle.htmlBody }}
+                  />
+                ) : (
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#1B1C15]/85">
+                    {activeArticle.textContent || 'No readable body content found in this HTML file.'}
+                  </p>
+                )}
               </article>
             ) : (
-              <p className="text-center text-xs text-slate-500">Select an article to read it offline.</p>
+              <p className="text-center text-xs text-[#1B1C15]/55">Select an article to read it offline.</p>
             )}
           </div>
         </div>

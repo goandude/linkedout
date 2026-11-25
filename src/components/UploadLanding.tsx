@@ -74,8 +74,8 @@ export function UploadLanding({
           100% Client-Side • Local Browser Storage Only
         </div>
         <h1 className="font-editorial text-4xl font-normal tracking-tight text-[#1B1C15] sm:text-5xl">
-          Query your LinkedIn archive{' '}
-          <span className="text-[#00674F]">without leaving your device.</span>
+          Your LinkedIn archive, searchable—{' '}
+          <span className="text-[#00674F]">and completely private.</span>
         </h1>
         <p className="mt-3 max-w-2xl text-sm text-[#1B1C15]/70 sm:text-base">
           Drop your LinkedIn data export <code className="rounded bg-[#F4EDD9] px-1.5 py-0.5 text-[#00674F]">.zip</code>{' '}
