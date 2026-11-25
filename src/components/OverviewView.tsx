@@ -181,7 +181,7 @@ export function OverviewView({ dataset, onNavigate }: OverviewViewProps) {
       {/* Charts Grid */}
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Top Companies */}
-        <div className="glass-card rounded-2xl p-5">
+        <div className="glass-card min-w-0 rounded-2xl p-5">
           <h3 className="mb-4 text-sm font-semibold text-slate-900">Top Companies in Your Network</h3>
           {topCompanies.length === 0 ? (
             <p className="text-xs text-slate-500">No company data available.</p>
@@ -200,9 +200,9 @@ export function OverviewView({ dataset, onNavigate }: OverviewViewProps) {
                     </span>
                     <span className="ml-2 shrink-0 text-slate-500">{count}</span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-[#F4EDD9]">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 transition-all group-hover:brightness-110"
+                      className="h-full rounded-full bg-[#00674F] transition-all group-hover:brightness-110"
                       style={{ width: `${Math.max(4, (count / maxCompanyCount) * 100)}%` }}
                     />
                   </div>
@@ -213,40 +213,42 @@ export function OverviewView({ dataset, onNavigate }: OverviewViewProps) {
         </div>
 
         {/* Network Growth */}
-        <div className="glass-card rounded-2xl p-5">
+        <div className="glass-card min-w-0 rounded-2xl p-5">
           <h3 className="mb-4 text-sm font-semibold text-slate-900">Network Growth by Year</h3>
           {growthByYear.length === 0 ? (
             <p className="text-xs text-slate-500">No connection dates available.</p>
           ) : (
-            <div className="flex h-52 items-end gap-2 pt-4">
-              {growthByYear.map(([year, count]) => {
-                const pct = Math.max(10, Math.round((count / maxYearCount) * 100));
-                return (
-                  <div key={year} className="group flex flex-1 flex-col items-center gap-1.5">
-                    <span className="text-[10px] font-semibold text-slate-600 opacity-0 transition group-hover:opacity-100">
-                      {count}
-                    </span>
-                    <div className="flex h-36 w-full items-end">
-                      <div
-                        className="w-full rounded-t-md bg-gradient-to-t from-indigo-500 to-cyan-500 transition-all group-hover:brightness-110"
-                        style={{ height: `${pct}%` }}
-                        title={`${year}: ${count} connections`}
-                      />
+            <div className="overflow-x-auto pb-1">
+              <div className="flex h-52 min-w-full items-end gap-2 pt-4">
+                {growthByYear.map(([year, count]) => {
+                  const pct = Math.max(10, Math.round((count / maxYearCount) * 100));
+                  return (
+                    <div key={year} className="group flex min-w-[18px] flex-1 flex-col items-center gap-1.5">
+                      <span className="text-[10px] font-semibold text-slate-600 opacity-0 transition group-hover:opacity-100">
+                        {count}
+                      </span>
+                      <div className="flex h-36 w-full items-end">
+                        <div
+                          className="w-full rounded-t-md bg-gradient-to-t from-[#00674F] to-[#50C878] transition-all group-hover:brightness-110"
+                          style={{ height: `${pct}%` }}
+                          title={`${year}: ${count} connections`}
+                        />
+                      </div>
+                      <span className="text-[10px] font-medium text-slate-500">{year.slice(-2)}</span>
                     </div>
-                    <span className="text-[10px] font-medium text-slate-500">{year.slice(-2)}</span>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
       </div>
 
       {/* Dataset Health Summary & Unlocked Queries */}
-      <div className="glass-card rounded-2xl p-5 space-y-5">
+      <div className="glass-card min-w-0 rounded-2xl p-5 space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h3 className="text-sm font-semibold text-slate-900">
+          <div className="min-w-0">
+            <h3 className="break-all text-sm font-semibold text-slate-900">
               Loaded Archive: <span className="text-emerald-700">{dataset.meta.fileName}</span>
             </h3>
             <p className="mt-0.5 text-xs text-slate-500">

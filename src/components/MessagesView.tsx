@@ -235,7 +235,7 @@ export function MessagesView({ dataset }: MessagesViewProps) {
             <div className="grid gap-4 lg:grid-cols-12">
               {/* Thread List */}
               <div
-                className={`glass-card max-h-[560px] overflow-y-auto rounded-2xl p-2 lg:col-span-5 ${
+                className={`glass-card min-w-0 max-h-[560px] overflow-y-auto rounded-2xl p-2 lg:col-span-5 ${
                   selectedConvId ? 'hidden lg:block' : 'block'
                 }`}
               >
@@ -265,7 +265,7 @@ export function MessagesView({ dataset }: MessagesViewProps) {
 
               {/* Active Thread Detail */}
               <div
-                className={`glass-card flex max-h-[560px] flex-col rounded-2xl lg:col-span-7 ${
+                className={`glass-card min-w-0 flex max-h-[560px] flex-col rounded-2xl lg:col-span-7 ${
                   selectedConvId ? 'block' : 'hidden lg:flex'
                 }`}
               >

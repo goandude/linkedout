@@ -139,15 +139,15 @@ export function QueryBuilderView({
       )}
 
       {/* Builder Card */}
-      <div className="glass-card rounded-2xl p-4 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-3">
-            <div>
+      <div className="glass-card min-w-0 rounded-2xl p-4 space-y-4">
+        <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
+          <div className="grid gap-3 sm:grid-cols-2 xl:flex xl:flex-wrap xl:items-end">
+            <div className="min-w-0">
               <label className="mb-1 block text-[11px] font-medium text-slate-600">Dataset Table</label>
               <select
                 value={selectedTable}
                 onChange={(e) => handleTableChange(e.target.value)}
-                className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none"
+                className="w-full min-w-0 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none sm:w-auto sm:max-w-[260px]"
               >
                 {tableList.map((t) => (
                   <option key={t.key} value={t.key}>
@@ -157,12 +157,12 @@ export function QueryBuilderView({
               </select>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <label className="mb-1 block text-[11px] font-medium text-slate-600">Match Logic</label>
               <select
                 value={combinator}
                 onChange={(e) => setCombinator(e.target.value as 'AND' | 'OR')}
-                className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none"
+                className="w-full min-w-0 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none sm:w-auto"
               >
                 <option value="AND">Match ALL (AND)</option>
                 <option value="OR">Match ANY (OR)</option>
@@ -170,18 +170,18 @@ export function QueryBuilderView({
             </div>
           </div>
 
-          <div className="flex items-end gap-2">
+          <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-end xl:w-auto">
             <input
               type="text"
               value={queryName}
               onChange={(e) => setQueryName(e.target.value)}
               placeholder="Name this query..."
-              className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-cyan-500 focus:outline-none"
+              className="w-full min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-cyan-500 focus:outline-none sm:w-48"
             />
             <button
               type="button"
               onClick={handleSave}
-              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-xl border border-cyan-300 bg-cyan-50 px-3 py-2 text-xs font-medium text-cyan-800 hover:bg-cyan-100"
+              className="inline-flex min-h-[38px] shrink-0 items-center justify-center gap-1.5 rounded-xl border border-cyan-300 bg-cyan-50 px-3.5 py-2 text-xs font-medium text-cyan-800 hover:bg-cyan-100"
             >
               <Bookmark className="h-3.5 w-3.5" /> Save
             </button>
@@ -197,7 +197,7 @@ export function QueryBuilderView({
                 <select
                   value={cond.field}
                   onChange={(e) => updateCondition(cond.id, { field: e.target.value })}
-                  className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800 sm:col-span-4"
+                  className="w-full min-w-0 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800 sm:col-span-4"
                 >
                   {columns.map((col) => (
                     <option key={col} value={col}>
@@ -209,7 +209,7 @@ export function QueryBuilderView({
                 <select
                   value={cond.operator}
                   onChange={(e) => updateCondition(cond.id, { operator: e.target.value as FilterOperator })}
-                  className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800 sm:col-span-3"
+                  className="w-full min-w-0 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800 sm:col-span-3"
                 >
                   {OPERATORS.map((op) => (
                     <option key={op.value} value={op.value}>
@@ -224,13 +224,13 @@ export function QueryBuilderView({
                   value={cond.value}
                   onChange={(e) => updateCondition(cond.id, { value: e.target.value })}
                   placeholder={needsValue ? 'Value or wildcard (*VP*, *@gmail.com)...' : 'No value needed'}
-                  className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 placeholder:text-slate-400 disabled:bg-slate-100 disabled:opacity-60 sm:col-span-4"
+                  className="w-full min-w-0 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 placeholder:text-slate-400 disabled:bg-slate-100 disabled:opacity-60 sm:col-span-4"
                 />
 
                 <button
                   type="button"
                   onClick={() => removeCondition(cond.id)}
-                  className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white p-2 text-slate-500 hover:text-rose-600 sm:col-span-1"
+                  className="inline-flex min-h-[38px] items-center justify-center rounded-xl border border-slate-200 bg-white p-2 text-slate-500 hover:text-rose-600 sm:col-span-1"
                   title="Remove condition"
                 >
                   <Trash2 className="h-3.5 w-3.5" />

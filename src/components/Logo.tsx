@@ -11,13 +11,13 @@ export function Logo({ size = 34, showWordmark = true }: { size?: number; showWo
       >
         <defs>
           <linearGradient id="loBg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#0f172a" />
-            <stop offset="100%" stopColor="#050811" />
+            <stop offset="0%" stopColor="#1B1C15" />
+            <stop offset="100%" stopColor="#0f1410" />
           </linearGradient>
           <linearGradient id="loAccent" x1="96" y1="96" x2="416" y2="416" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#34d399" />
-            <stop offset="50%" stopColor="#22d3ee" />
-            <stop offset="100%" stopColor="#6366f1" />
+            <stop offset="0%" stopColor="#50C878" />
+            <stop offset="55%" stopColor="#008A68" />
+            <stop offset="100%" stopColor="#FFEE8C" />
           </linearGradient>
         </defs>
         <rect width="512" height="512" rx="112" fill="url(#loBg)" />
@@ -31,7 +31,7 @@ export function Logo({ size = 34, showWordmark = true }: { size?: number; showWo
         />
         <path
           d="M196 204V316H276"
-          stroke="#f1f5f9"
+          stroke="#FFFAEB"
           strokeWidth="30"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -43,15 +43,12 @@ export function Logo({ size = 34, showWordmark = true }: { size?: number; showWo
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <circle cx="196" cy="204" r="20" fill="#34d399" />
+        <circle cx="196" cy="204" r="20" fill="#50C878" />
       </svg>
 
       {showWordmark && (
-        <span className="text-lg font-bold tracking-tight text-slate-900">
-          Linked
-          <span className="bg-gradient-to-r from-emerald-600 via-cyan-600 to-indigo-600 bg-clip-text text-transparent">
-            Out
-          </span>
+        <span className="font-editorial text-xl font-normal tracking-tight text-[#1B1C15]">
+          Linked<span className="text-[#00674F]">Out</span>
         </span>
       )}
     </div>

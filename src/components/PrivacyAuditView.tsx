@@ -100,11 +100,11 @@ export function PrivacyAuditView({ dataset }: { dataset: LinkedInDataset }) {
           <h2 className="text-sm font-semibold text-slate-900">Account, Contact & Verification Footprint</h2>
         </div>
         <div className="grid gap-4 lg:grid-cols-2">
-          <div>
+          <div className="min-w-0">
             <h3 className="mb-2 text-xs font-semibold text-slate-700">Registration & Emails</h3>
             <ResponsiveDataTable rows={[...registration, ...emails]} exportName="linkedout_account_emails" />
           </div>
-          <div>
+          <div className="min-w-0">
             <h3 className="mb-2 text-xs font-semibold text-slate-700">Phones & Verifications</h3>
             <ResponsiveDataTable rows={[...phones, ...verifications]} exportName="linkedout_verifications" />
           </div>

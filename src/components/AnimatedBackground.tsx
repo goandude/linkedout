@@ -58,7 +58,7 @@ export function AnimatedBackground() {
 
         ctx.beginPath();
         ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(5, 150, 105, 0.28)';
+        ctx.fillStyle = 'rgba(0, 103, 79, 0.22)';
         ctx.fill();
 
         for (let j = i + 1; j < nodes.length; j++) {
@@ -67,11 +67,11 @@ export function AnimatedBackground() {
           const dy = a.y - b.y;
           const distSq = dx * dx + dy * dy;
           if (distSq < 22500) {
-            const alpha = (1 - Math.sqrt(distSq) / 150) * 0.16;
+            const alpha = (1 - Math.sqrt(distSq) / 150) * 0.14;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(8, 145, 178, ${alpha.toFixed(3)})`;
+            ctx.strokeStyle = `rgba(0, 103, 79, ${alpha.toFixed(3)})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -90,24 +90,24 @@ export function AnimatedBackground() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-slate-50" aria-hidden="true">
-      {/* Subtle architectural grid */}
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#FFFAEB]" aria-hidden="true">
+      {/* Subtle warm editorial paper grid */}
       <div
-        className="absolute inset-0 opacity-[0.4]"
+        className="absolute inset-0 opacity-[0.45]"
         style={{
           backgroundImage:
-            'linear-gradient(to right, rgba(148,163,184,0.14) 1px, transparent 1px), linear-gradient(to bottom, rgba(148,163,184,0.14) 1px, transparent 1px)',
+            'linear-gradient(to right, rgba(27,28,21,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(27,28,21,0.045) 1px, transparent 1px)',
           backgroundSize: '56px 56px',
         }}
       />
 
-      {/* Animated ambient aurora blobs */}
-      <div className="animate-aurora-slow absolute -top-36 -left-24 h-[520px] w-[520px] rounded-full bg-emerald-300/25 blur-[120px]" />
-      <div className="animate-aurora-reverse absolute top-1/3 -right-28 h-[480px] w-[480px] rounded-full bg-cyan-300/25 blur-[130px]" />
-      <div className="animate-aurora-slow absolute -bottom-40 left-1/3 h-[440px] w-[440px] rounded-full bg-indigo-300/20 blur-[130px]" />
+      {/* Warm dawn & forest valley atmospheric blobs */}
+      <div className="animate-aurora-slow absolute -top-36 -left-24 h-[520px] w-[520px] rounded-full bg-[#00674F]/10 blur-[120px]" />
+      <div className="animate-aurora-reverse absolute top-1/3 -right-28 h-[480px] w-[480px] rounded-full bg-[#FFEE8C]/35 blur-[130px]" />
+      <div className="animate-aurora-slow absolute -bottom-40 left-1/3 h-[440px] w-[440px] rounded-full bg-[#F4EDD9]/85 blur-[130px]" />
 
       {/* Network constellation canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-80" />
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-75" />
     </div>
   );
 }

@@ -66,7 +66,7 @@ export function ResponsiveDataTable({
   }
 
   return (
-    <div className="space-y-3">
+    <div className="w-full min-w-0 space-y-3">
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
         <span>
@@ -117,27 +117,27 @@ export function ResponsiveDataTable({
 
       {/* Mobile Card View */}
       {mobileMode === 'cards' && (
-        <div className="grid gap-3 md:hidden">
+        <div className="grid min-w-0 gap-3 md:hidden">
           {pageRows.map((row, idx) => (
-            <div key={idx} className="glass-card rounded-xl p-4 space-y-2">
+            <div key={idx} className="glass-card min-w-0 overflow-hidden rounded-xl p-4 space-y-2">
               {derivedColumns.slice(0, 7).map((col) => {
                 const val = row[col];
                 if (!val) return null;
                 const isUrl = /^https?:\/\//i.test(val);
                 return (
-                  <div key={col} className="flex flex-col gap-0.5 border-b border-slate-200/80 pb-1.5 last:border-b-0 last:pb-0">
+                  <div key={col} className="flex min-w-0 flex-col gap-0.5 border-b border-slate-200/80 pb-1.5 last:border-b-0 last:pb-0">
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{col}</span>
                     {isUrl ? (
                       <a
                         href={val}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="truncate text-xs text-cyan-700 underline decoration-cyan-500/40"
+                        className="break-all text-xs text-cyan-700 underline decoration-cyan-500/40"
                       >
                         {val}
                       </a>
                     ) : (
-                      <span className="break-words text-xs text-slate-800">{val}</span>
+                      <span className="break-all text-xs text-slate-800">{val}</span>
                     )}
                   </div>
                 );
@@ -152,12 +152,12 @@ export function ResponsiveDataTable({
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-200 bg-slate-100/80 text-slate-700">
+              <tr className="border-b border-[#EAE6D7] bg-[#F4EDD9]/65 text-[#1B1C15]">
                 {derivedColumns.map((col) => (
                   <th
                     key={col}
                     onClick={() => toggleSort(col)}
-                    className="cursor-pointer whitespace-nowrap px-3.5 py-3 font-semibold select-none hover:bg-slate-200/60 hover:text-slate-900"
+                    className="cursor-pointer whitespace-nowrap px-3.5 py-3 font-semibold select-none hover:bg-[#F4EDD9]"
                   >
                     <div className="inline-flex items-center gap-1">
                       <span>{col}</span>

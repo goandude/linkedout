@@ -15,8 +15,8 @@ export default defineConfig({
         short_name: 'LinkedOut',
         description:
           'Privacy-first, offline-capable explorer for your exported LinkedIn data archive. 100% local browser storage.',
-        theme_color: '#f8fafc',
-        background_color: '#f8fafc',
+        theme_color: '#FFFAEB',
+        background_color: '#FFFAEB',
         display: 'standalone',
         orientation: 'any',
         start_url: '/',

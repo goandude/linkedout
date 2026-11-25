@@ -69,18 +69,16 @@ export function UploadLanding({
         <div className="mb-5">
           <Logo size={52} showWordmark={false} />
         </div>
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-xs font-medium text-emerald-700">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#00674F]/25 bg-[#00674F]/8 px-3.5 py-1 text-xs font-medium text-[#00674F]">
           <ShieldCheck className="h-3.5 w-3.5" />
           100% Client-Side • Local Browser Storage Only
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+        <h1 className="font-editorial text-4xl font-normal tracking-tight text-[#1B1C15] sm:text-5xl">
           Query your LinkedIn archive{' '}
-          <span className="bg-gradient-to-r from-emerald-600 via-cyan-600 to-indigo-600 bg-clip-text text-transparent">
-            without leaving your device.
-          </span>
+          <span className="text-[#00674F]">without leaving your device.</span>
         </h1>
-        <p className="mt-3 max-w-2xl text-sm text-slate-600 sm:text-base">
-          Drop your <code className="rounded bg-slate-200/80 px-1.5 py-0.5 text-emerald-700">Basic_LinkedInDataExport.zip</code>{' '}
+        <p className="mt-3 max-w-2xl text-sm text-[#1B1C15]/70 sm:text-base">
+          Drop your <code className="rounded bg-[#F4EDD9] px-1.5 py-0.5 text-[#00674F]">Basic_LinkedInDataExport.zip</code>{' '}
           to search connections by company, title, or email wildcards, explore 10,000+ messages, and audit your ad profile—even offline.
         </p>
       </div>
@@ -150,10 +148,10 @@ export function UploadLanding({
             inputRef.current?.click();
           }
         }}
-        className={`glass-panel group relative cursor-pointer rounded-2xl p-8 text-center transition-all duration-200 sm:p-12 ${
+        className={`glass-panel group relative cursor-pointer rounded-3xl p-8 text-center transition-all duration-200 sm:p-12 ${
           isDragging
-            ? 'border-emerald-500 bg-emerald-50/70 shadow-[0_0_40px_rgba(16,185,129,0.18)]'
-            : 'hover:border-cyan-500/50 hover:bg-white/95'
+            ? 'border-[#00674F] bg-[#00674F]/5 shadow-[0_0_40px_rgba(0,103,79,0.12)]'
+            : 'hover:border-[#1B1C15]/25 hover:bg-[#FBFBF8]'
         }`}
       >
         <input
@@ -182,14 +180,14 @@ export function UploadLanding({
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100/80 text-cyan-600 transition-transform duration-200 group-hover:scale-105 group-hover:border-cyan-400">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-[#EAE6D7] bg-[#F4EDD9]/70 text-[#00674F] transition-transform duration-200 group-hover:scale-105 group-hover:border-[#00674F]/40">
               <UploadCloud className="h-8 w-8" />
             </div>
             <div>
-              <p className="text-base font-semibold text-slate-900 sm:text-lg">
-                Drag & drop your LinkedIn <span className="text-emerald-600">.zip</span> export here
+              <p className="text-base font-semibold text-[#1B1C15] sm:text-lg">
+                Drag & drop your LinkedIn <span className="text-[#00674F]">.zip</span> export here
               </p>
-              <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+              <p className="mt-1 text-xs text-[#1B1C15]/60 sm:text-sm">
                 Or tap to browse from your computer or phone • Zero bytes uploaded
               </p>
             </div>
@@ -201,7 +199,7 @@ export function UploadLanding({
                   e.stopPropagation();
                   inputRef.current?.click();
                 }}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-emerald-600/20 transition hover:brightness-110"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#1B1C15] px-6 py-2.5 text-sm font-medium text-[#FFFAEB] shadow-md transition hover:bg-[#2d2f24]"
               >
                 <FileArchive className="h-4 w-4" />
                 Select .zip Archive
@@ -213,9 +211,9 @@ export function UploadLanding({
                   e.stopPropagation();
                   onLoadDemo();
                 }}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 shadow-xs transition hover:border-slate-400 hover:bg-slate-50"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#1B1C15]/15 bg-[#FFFAEB] px-6 py-2.5 text-sm font-medium text-[#1B1C15] shadow-2xs transition hover:bg-[#F4EDD9]"
               >
-                <Sparkles className="h-4 w-4 text-amber-500" />
+                <Sparkles className="h-4 w-4 text-[#00674F]" />
                 Try Synthetic Demo Data
               </button>
             </div>

@@ -214,10 +214,10 @@ export function NetworkView({
             key={key}
             type="button"
             onClick={() => setPreset(key)}
-            className={`inline-flex min-h-[38px] items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-medium transition ${
+            className={`inline-flex min-h-[38px] items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition ${
               preset === key
-                ? 'border border-emerald-300 bg-emerald-50 text-emerald-800 shadow-xs'
-                : 'border border-slate-200 bg-white/80 text-slate-700 hover:border-slate-300 hover:text-slate-900'
+                ? 'bg-[#00674F] text-[#FFFAEB] shadow-xs'
+                : 'border border-[#EAE6D7] bg-[#FBFBF8] text-[#1B1C15]/80 hover:bg-[#F4EDD9]'
             }`}
           >
             <Icon className="h-3.5 w-3.5" />

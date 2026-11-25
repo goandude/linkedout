@@ -188,7 +188,7 @@ export function LearningView({ dataset }: { dataset: LinkedInDataset }) {
         <ResponsiveDataTable rows={filteredCourses} exportName="linkedout_learning" />
       ) : (
         <div className="grid gap-4 lg:grid-cols-12">
-          <div className="space-y-3 lg:col-span-5">
+          <div className="min-w-0 space-y-3 lg:col-span-5">
             {filteredArticles.length === 0 ? (
               <div className="glass-card rounded-2xl p-6 text-center text-xs text-slate-500">
                 No articles found.
@@ -213,7 +213,7 @@ export function LearningView({ dataset }: { dataset: LinkedInDataset }) {
             )}
           </div>
 
-          <div className="glass-card rounded-2xl p-6 lg:col-span-7">
+          <div className="glass-card min-w-0 rounded-2xl p-6 lg:col-span-7">
             {activeArticle ? (
               <article className="prose prose-slate prose-sm max-w-none">
                 <h2 className="text-lg font-bold text-slate-900">{activeArticle.title}</h2>

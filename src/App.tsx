@@ -11,6 +11,7 @@ import {
   Menu,
   MessageSquare,
   RefreshCw,
+  Search,
   ShieldAlert,
   ShieldCheck,
   SlidersHorizontal,
@@ -43,6 +44,7 @@ import { MessagesView } from './components/MessagesView';
 import { JobsView, LearningView } from './components/JobsLearningView';
 import { PrivacyAuditView } from './components/PrivacyAuditView';
 import { QueryBuilderView } from './components/QueryBuilderView';
+import { GlobalSearchModal } from './components/GlobalSearchModal';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -82,6 +84,7 @@ export function App() {
     title?: string;
   }>({});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [isOnline, setIsOnline] = useState(() => (typeof navigator !== 'undefined' ? navigator.onLine : true));
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
@@ -110,10 +113,18 @@ export function App() {
     window.addEventListener('online', onOnline);
     window.addEventListener('offline', onOffline);
     window.addEventListener('beforeinstallprompt', onBeforeInstall);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchOpen((v) => !v);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
     return () => {
       window.removeEventListener('online', onOnline);
       window.removeEventListener('offline', onOffline);
       window.removeEventListener('beforeinstallprompt', onBeforeInstall);
+      window.removeEventListener('keydown', onKeyDown);
     };
   }, []);
 
@@ -282,7 +293,7 @@ export function App() {
       />
 
       {/* Desktop Sidebar */}
-      <aside className="glass-panel hidden w-64 shrink-0 flex-col gap-5 border-r border-slate-200/80 p-4 lg:flex">
+      <aside className="glass-panel hidden w-64 shrink-0 flex-col gap-5 border-r border-[#EAE6D7] p-4 lg:flex">
         <div className="px-2 pt-1">
           <Logo size={32} />
         </div>
@@ -295,10 +306,10 @@ export function App() {
                 key={key}
                 type="button"
                 onClick={() => handleNavigate(key)}
-                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-medium transition ${
+                className={`flex w-full items-center gap-3 rounded-full px-3.5 py-2.5 text-xs font-medium transition ${
                   active
-                    ? 'border border-emerald-200 bg-gradient-to-r from-emerald-50 to-cyan-50 text-emerald-800 shadow-2xs'
-                    : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900'
+                    ? 'bg-[#00674F] text-[#FFFAEB] shadow-xs'
+                    : 'text-[#1B1C15]/75 hover:bg-[#F4EDD9]/70 hover:text-[#1B1C15]'
                 }`}
               >
                 <Icon className="h-4 w-4 shrink-0" />
@@ -309,8 +320,8 @@ export function App() {
         </nav>
 
         {/* File Upload & Local Storage Settings right below menu options */}
-        <div className="space-y-2.5 border-t border-slate-200/80 pt-4">
-          <p className="px-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+        <div className="space-y-2.5 border-t border-[#EAE6D7] pt-4">
+          <p className="px-1 text-[10px] font-semibold uppercase tracking-wider text-[#1B1C15]/45">
             Data &amp; Local Storage
           </p>
 
@@ -318,31 +329,31 @@ export function App() {
             type="button"
             disabled={isParsing}
             onClick={() => fileInputRef.current?.click()}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800 shadow-2xs hover:bg-emerald-100 disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1B1C15] px-3 py-2 text-xs font-medium text-[#FFFAEB] shadow-xs transition hover:bg-[#2d2f24] disabled:opacity-50"
           >
             <Upload className="h-3.5 w-3.5" />
             {isParsing ? `Parsing ${progress}%...` : 'Merge / Import .zip'}
           </button>
 
-          <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-slate-200 bg-white/80 p-2.5 text-[11px] text-slate-700">
+          <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-[#EAE6D7] bg-[#FBFBF8] p-2.5 text-[11px] text-[#1B1C15]/80">
             <input
               type="checkbox"
               checked={sessionOnly}
               onChange={(e) => handleToggleSessionOnly(e.target.checked)}
-              className="mt-0.5 h-3.5 w-3.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+              className="mt-0.5 h-3.5 w-3.5 rounded border-[#EAE6D7] text-[#00674F] focus:ring-[#00674F]"
             />
             <span>
-              <strong className="block text-slate-900">Session-Only Mode</strong>
-              <span className="text-[10px] text-slate-500">Skip IndexedDB persistence</span>
+              <strong className="block text-[#1B1C15]">Session-Only Mode</strong>
+              <span className="text-[10px] text-[#1B1C15]/55">Skip IndexedDB persistence</span>
             </span>
           </label>
 
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-2.5 text-[11px] text-emerald-800">
+          <div className="rounded-xl border border-[#00674F]/20 bg-[#00674F]/8 p-2.5 text-[11px] text-[#00674F]">
             <div className="flex items-center gap-1.5 font-semibold">
-              <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+              <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-[#00674F]" />
               Local-Only Mode
             </div>
-            <p className="mt-0.5 text-[10px] text-emerald-700/85">
+            <p className="mt-0.5 text-[10px] text-[#00674F]/80">
               {sessionOnly ? 'Memory only' : 'Stored in browser IndexedDB'} • 0 bytes uploaded
             </p>
           </div>
@@ -351,7 +362,7 @@ export function App() {
             <button
               type="button"
               onClick={handleInstallPwa}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-cyan-300 bg-cyan-50 px-3 py-2 text-xs font-medium text-cyan-800 hover:bg-cyan-100"
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-[#00674F]/30 bg-[#00674F]/10 px-3 py-2 text-xs font-medium text-[#00674F] hover:bg-[#00674F]/15"
             >
               <Download className="h-3.5 w-3.5" /> Install Offline App
             </button>
@@ -360,20 +371,31 @@ export function App() {
           <button
             type="button"
             onClick={handleClearData}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-medium text-rose-700 hover:bg-rose-100"
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#C41E3A]/25 bg-[#C41E3A]/8 px-3 py-2 text-xs font-medium text-[#C41E3A] hover:bg-[#C41E3A]/12"
           >
             <Trash2 className="h-3.5 w-3.5" /> Clear Local Data
           </button>
 
           <a
+            href="https://www.linkedin.com/mypreferences/d/download-my-data"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#EAE6D7] bg-[#FBFBF8] px-3 py-2 text-xs font-medium text-[#1B1C15] shadow-2xs transition hover:bg-[#F4EDD9]"
+          >
+            <Download className="h-3.5 w-3.5 text-[#00674F]" />
+            <span>Request LinkedIn Data</span>
+            <ExternalLink className="h-3 w-3 text-[#1B1C15]/45" />
+          </a>
+
+          <a
             href="https://github.com/goandude/linkedout"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white/80 px-3 py-2 text-xs font-medium text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#EAE6D7] bg-[#FBFBF8] px-3 py-2 text-xs font-medium text-[#1B1C15] shadow-2xs transition hover:bg-[#F4EDD9]"
           >
             <Github className="h-3.5 w-3.5" />
             <span>GitHub Repo</span>
-            <ExternalLink className="h-3 w-3 text-slate-400" />
+            <ExternalLink className="h-3 w-3 text-[#1B1C15]/45" />
           </a>
         </div>
       </aside>
@@ -382,6 +404,15 @@ export function App() {
       <header className="glass-panel sticky top-0 z-30 flex items-center justify-between border-b border-slate-200/80 px-4 py-3 lg:hidden">
         <Logo size={28} />
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 shadow-2xs"
+            aria-label="Global search"
+          >
+            <Search className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Search</span>
+          </button>
           <span
             className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-medium ${
               isOnline ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'
@@ -446,6 +477,14 @@ export function App() {
               <Trash2 className="h-3.5 w-3.5" /> Clear Data
             </button>
             <a
+              href="https://www.linkedin.com/mypreferences/d/download-my-data"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2 text-xs text-cyan-800"
+            >
+              <Download className="h-3.5 w-3.5" /> Request Data
+            </a>
+            <a
               href="https://github.com/goandude/linkedout"
               target="_blank"
               rel="noopener noreferrer"
@@ -458,20 +497,32 @@ export function App() {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 px-4 py-6 pb-24 sm:px-6 lg:px-8 lg:pb-8">
+      <main className="min-w-0 flex-1 px-4 py-6 pb-24 sm:px-6 lg:px-8 lg:pb-8">
         {/* Top Context Bar */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">
+            <h1 className="font-editorial text-2xl font-normal text-[#1B1C15] sm:text-3xl">
               {NAV_ITEMS.find((i) => i.key === activeTab)?.label}
             </h1>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[#1B1C15]/60">
               {connectionsCount.toLocaleString()} connections • {dataset.meta.totalRows.toLocaleString()} total rows across{' '}
               {dataset.meta.tableCount} tables
             </p>
           </div>
 
-          <div className="hidden items-center gap-2 lg:flex">
+          <div className="hidden items-center gap-2.5 lg:flex">
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-1.5 text-xs text-slate-600 shadow-2xs transition hover:border-emerald-300 hover:text-slate-900"
+            >
+              <Search className="h-3.5 w-3.5 text-slate-400" />
+              <span>Quick Search...</span>
+              <kbd className="rounded border border-slate-200 bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
+                Ctrl+K
+              </kbd>
+            </button>
+
             <span
               className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${
                 isOnline
@@ -541,6 +592,14 @@ export function App() {
           );
         })}
       </nav>
+
+      {/* Global Ctrl+K Search Modal */}
+      <GlobalSearchModal
+        open={searchOpen}
+        dataset={dataset}
+        onClose={() => setSearchOpen(false)}
+        onNavigate={handleNavigate}
+      />
 
       {/* Merge vs Replace Confirmation Modal */}
       {pendingImport && (
