@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+*.local
+
+# Environment & Editor
+.env
+.env.*
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+
+# Never commit personal LinkedIn archives
+*.zip

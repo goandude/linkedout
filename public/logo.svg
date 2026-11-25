@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="96" y1="96" x2="416" y2="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="50%" stop-color="#22d3ee" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+  <rect x="12" y="12" width="488" height="488" rx="102" stroke="url(#accentGrad)" stroke-opacity="0.28" stroke-width="6" />
+  <!-- Open network frame -->
+  <path d="M236 128H156C138.327 128 124 142.327 124 160V356C124 373.673 138.327 388 156 388H352C369.673 388 384 373.673 384 356V276" stroke="url(#accentGrad)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- "L" / data bar inside -->
+  <path d="M196 204V316H276" stroke="#e2e8f0" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Breakout arrow ("Out") -->
+  <path d="M268 244L388 124M388 124H304M388 124V208" stroke="url(#accentGrad)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Accent node -->
+  <circle cx="196" cy="204" r="18" fill="#34d399" />
+</svg>
