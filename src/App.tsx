@@ -10,6 +10,7 @@ import {
   LayoutDashboard,
   Menu,
   MessageSquare,
+  MessageSquarePlus,
   RefreshCw,
   Search,
   ShieldAlert,
@@ -439,6 +440,16 @@ export function App() {
             <Search className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Search</span>
           </button>
+          <a
+            href="https://forms.gle/ejBuNDmkfshozJdf6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 rounded-lg border border-[#EAE6D7] bg-[#FBFBF8] px-2.5 py-1.5 text-xs font-medium text-[#1B1C15] shadow-2xs hover:bg-[#F4EDD9]"
+            aria-label="Send feedback"
+          >
+            <MessageSquarePlus className="h-3.5 w-3.5 text-[#00674F]" />
+            <span className="hidden sm:inline">Feedback</span>
+          </a>
           <span
             className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-medium ${
               isOnline ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'
@@ -540,20 +551,30 @@ export function App() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-1.5 text-xs text-slate-600 shadow-2xs transition hover:border-emerald-300 hover:text-slate-900"
+              className="inline-flex items-center gap-2 rounded-xl border border-[#EAE6D7] bg-[#FBFBF8] px-3 py-1.5 text-xs text-[#1B1C15]/80 shadow-2xs transition hover:border-[#00674F]/40 hover:text-[#1B1C15]"
             >
-              <Search className="h-3.5 w-3.5 text-slate-400" />
+              <Search className="h-3.5 w-3.5 text-[#1B1C15]/45" />
               <span>Quick Search...</span>
-              <kbd className="rounded border border-slate-200 bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
+              <kbd className="rounded border border-[#EAE6D7] bg-[#F4EDD9]/60 px-1.5 py-0.5 text-[10px] font-medium text-[#1B1C15]/60">
                 Ctrl+K
               </kbd>
             </button>
 
+            <a
+              href="https://forms.gle/ejBuNDmkfshozJdf6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#EAE6D7] bg-[#FBFBF8] px-3 py-1.5 text-xs font-medium text-[#1B1C15] shadow-2xs transition hover:bg-[#F4EDD9]"
+            >
+              <MessageSquarePlus className="h-3.5 w-3.5 text-[#00674F]" />
+              <span>Feedback</span>
+            </a>
+
             <span
               className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${
                 isOnline
-                  ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-                  : 'border-amber-200 bg-amber-50 text-amber-700'
+                  ? 'border-[#00674F]/25 bg-[#00674F]/10 text-[#00674F]'
+                  : 'border-amber-200 bg-amber-50 text-amber-800'
               }`}
             >
               {isOnline ? <Database className="h-3.5 w-3.5" /> : <WifiOff className="h-3.5 w-3.5" />}
