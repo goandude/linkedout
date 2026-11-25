@@ -1,14 +1,20 @@
 import { useRef, useState } from 'react';
 import {
+  ArrowLeft,
   Database,
   FileArchive,
+  GitMerge,
+  RefreshCw,
   ShieldCheck,
   Sparkles,
   UploadCloud,
   WifiOff,
   Search,
 } from 'lucide-react';
+import type { DatasetMeta } from '../types/linkedin';
 import { Logo } from './Logo';
+
+export type ImportMode = 'merge' | 'replace';
 
 interface UploadLandingProps {
   isParsing: boolean;
@@ -16,6 +22,10 @@ interface UploadLandingProps {
   progressLabel: string;
   error: string | null;
   sessionOnly: boolean;
+  existingMeta?: DatasetMeta | null;
+  importMode: ImportMode;
+  onChangeImportMode: (mode: ImportMode) => void;
+  onCancelImport?: () => void;
   onToggleSessionOnly: (val: boolean) => void;
   onFileSelected: (file: File) => void;
   onLoadDemo: () => void;
@@ -27,6 +37,10 @@ export function UploadLanding({
   progressLabel,
   error,
   sessionOnly,
+  existingMeta,
+  importMode,
+  onChangeImportMode,
+  onCancelImport,
   onToggleSessionOnly,
   onFileSelected,
   onLoadDemo,
@@ -43,6 +57,15 @@ export function UploadLanding({
     <div className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-4 py-10 sm:px-6 lg:px-8">
       {/* Top Hero */}
       <div className="mb-8 flex flex-col items-center text-center">
+        {existingMeta && onCancelImport && (
+          <button
+            type="button"
+            onClick={onCancelImport}
+            className="mb-5 inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-700 shadow-2xs hover:border-slate-300 hover:text-slate-900"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> Back to {existingMeta.fileName} ({existingMeta.totalRows.toLocaleString()} rows)
+          </button>
+        )}
         <div className="mb-5">
           <Logo size={52} showWordmark={false} />
         </div>
@@ -61,6 +84,51 @@ export function UploadLanding({
           to search connections by company, title, or email wildcards, explore 10,000+ messages, and audit your ad profile—even offline.
         </p>
       </div>
+
+      {/* Merge vs Replace Selector when an existing dataset is loaded */}
+      {existingMeta && (
+        <div className="mb-5 grid gap-3 sm:grid-cols-2">
+          <button
+            type="button"
+            onClick={() => onChangeImportMode('merge')}
+            className={`glass-card flex items-start gap-3 rounded-2xl p-4 text-left transition ${
+              importMode === 'merge'
+                ? 'border-emerald-400 bg-emerald-50/80 ring-1 ring-emerald-400/50'
+                : 'hover:border-slate-300'
+            }`}
+          >
+            <div className="mt-0.5 rounded-lg bg-emerald-100 p-2 text-emerald-700">
+              <GitMerge className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-slate-900">Merge Delta &amp; New Tables (Recommended)</p>
+              <p className="mt-0.5 text-[11px] text-slate-600">
+                Keep your {existingMeta.totalRows.toLocaleString()} existing rows, add new tables (e.g., Part 2 of Complete export), and append only deduplicated delta records.
+              </p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onChangeImportMode('replace')}
+            className={`glass-card flex items-start gap-3 rounded-2xl p-4 text-left transition ${
+              importMode === 'replace'
+                ? 'border-cyan-400 bg-cyan-50/80 ring-1 ring-cyan-400/50'
+                : 'hover:border-slate-300'
+            }`}
+          >
+            <div className="mt-0.5 rounded-lg bg-slate-100 p-2 text-slate-700">
+              <RefreshCw className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-slate-900">Replace Existing Dataset</p>
+              <p className="mt-0.5 text-[11px] text-slate-600">
+                Discard the current archive in local storage and start fresh with the newly uploaded .zip file.
+              </p>
+            </div>
+          </button>
+        </div>
+      )}
 
       {/* Dropzone */}
       <div

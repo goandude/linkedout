@@ -1,8 +1,11 @@
 import { useMemo } from 'react';
 import {
+  AlertCircle,
   Briefcase,
   Building2,
+  CheckCircle2,
   GraduationCap,
+  Info,
   Mail,
   MessageSquare,
   Search,
@@ -239,23 +242,144 @@ export function OverviewView({ dataset, onNavigate }: OverviewViewProps) {
         </div>
       </div>
 
-      {/* Dataset Health Summary */}
-      <div className="glass-card rounded-2xl p-5">
-        <h3 className="mb-3 text-sm font-semibold text-slate-900">
-          Loaded Archive: <span className="text-emerald-700">{dataset.meta.fileName}</span>
-        </h3>
-        <div className="flex flex-wrap gap-2">
-          {dataset.meta.tables.map((t) => (
-            <span
-              key={t.key}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100/80 px-2.5 py-1 text-xs text-slate-700"
+      {/* Dataset Health Summary & Unlocked Queries */}
+      <div className="glass-card rounded-2xl p-5 space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 className="text-sm font-semibold text-slate-900">
+              Loaded Archive: <span className="text-emerald-700">{dataset.meta.fileName}</span>
+            </h3>
+            <p className="mt-0.5 text-xs text-slate-500">
+              Here is what data was detected in your <code className="rounded bg-slate-200/80 px-1 py-0.5 text-slate-700">.zip</code> and which queries are ready to run:
+            </p>
+          </div>
+          <span className="rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-[11px] font-medium text-slate-700">
+            {dataset.meta.tables.filter((t) => t.rowCount > 0).length} active tables
+          </span>
+        </div>
+
+        {/* Domain Availability Grid */}
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              title: 'Network & Connections',
+              available: connections.length > 0,
+              countLabel: `${connections.length.toLocaleString()} connections`,
+              queries: 'Company X lookup, Title wildcards, Email domains, Invitations, Endorsements',
+              tab: 'network' as NavTab,
+            },
+            {
+              title: 'Messages & Threads',
+              available: messages.length > 0,
+              countLabel: `${messages.length.toLocaleString()} messages`,
+              queries: 'Full-text message search, Warmest/Dormant contacts, Top contacts',
+              tab: 'messages' as NavTab,
+            },
+            {
+              title: 'Jobs & Career History',
+              available: savedJobs.length + jobApps.length + (dataset.tables.positions?.length ?? 0) > 0,
+              countLabel: `${savedJobs.length} saved • ${jobApps.length} applied`,
+              queries: 'Saved vs. Applied jobs, Target company connections, Q&A bank',
+              tab: 'jobs' as NavTab,
+            },
+            {
+              title: 'Learning & Articles',
+              available: learning.length + dataset.articles.length > 0,
+              countLabel: `${learning.length} courses • ${dataset.articles.length} articles`,
+              queries: 'Course progress, Video notes search, Offline article reader',
+              tab: 'learning' as NavTab,
+            },
+            {
+              title: 'Ad Targeting & Spend',
+              available: (dataset.tables.ad_targeting?.length ?? 0) + (dataset.tables.receipts?.length ?? 0) > 0,
+              countLabel: `${dataset.tables.receipts?.length ?? 0} receipts`,
+              queries: 'Inferred ad segments, Lifetime LinkedIn spend, Verifications',
+              tab: 'privacy' as NavTab,
+            },
+            {
+              title: 'Activity & Posts (Complete Export)',
+              available: Boolean(
+                dataset.tables.shares?.length ||
+                  dataset.tables.comments?.length ||
+                  dataset.tables.reactions?.length ||
+                  dataset.tables.searchhistory?.length
+              ),
+              countLabel: 'Shares, Comments, Reactions',
+              queries: 'Queryable in Power Query Builder when included in Complete export',
+              tab: 'query' as NavTab,
+            },
+          ].map((item) => (
+            <button
+              key={item.title}
+              type="button"
+              onClick={() => onNavigate(item.tab)}
+              className={`rounded-xl border p-3.5 text-left transition ${
+                item.available
+                  ? 'border-emerald-200 bg-emerald-50/50 hover:border-emerald-300 hover:bg-emerald-50'
+                  : 'border-slate-200 bg-slate-50/70 opacity-80 hover:border-slate-300'
+              }`}
             >
-              <span>{t.label}</span>
-              <span className="rounded bg-white px-1.5 py-0.5 text-[10px] font-semibold text-cyan-700 shadow-2xs">
-                {t.rowCount.toLocaleString()}
-              </span>
-            </span>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-semibold text-slate-900">{item.title}</span>
+                {item.available ? (
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
+                ) : (
+                  <AlertCircle className="h-4 w-4 shrink-0 text-amber-500" />
+                )}
+              </div>
+              <p className="mt-1 text-[11px] font-medium text-emerald-700">
+                {item.available ? item.countLabel : 'Not present in this archive'}
+              </p>
+              <p className="mt-1 text-[11px] leading-relaxed text-slate-600">{item.queries}</p>
+            </button>
           ))}
+        </div>
+
+        {/* Instructions for Getting the Detailed / Complete Export */}
+        <div className="rounded-xl border border-cyan-200 bg-cyan-50/70 p-4">
+          <div className="flex items-start gap-2.5">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-cyan-700" />
+            <div className="space-y-1.5 text-xs text-slate-700">
+              <p className="font-semibold text-slate-900">
+                Want to run more queries? Request LinkedIn&apos;s Detailed (Complete) Data Archive
+              </p>
+              <p className="text-slate-600">
+                LinkedIn&apos;s fast <strong>Basic</strong> export omits engagement history (posts, comments, reactions, search history, and some profile details). To unlock everything:
+              </p>
+              <ol className="list-decimal space-y-1 pl-4 text-[11px] text-slate-700">
+                <li>
+                  Open LinkedIn → <strong>Settings &amp; Privacy</strong> → <strong>Data Privacy</strong> →{' '}
+                  <strong>Get a copy of your data</strong>.
+                </li>
+                <li>
+                  Choose <strong>&quot;Download larger data archive&quot;</strong> (the Complete export—LinkedIn emails a 2-part <code className="rounded bg-cyan-100/80 px-1 py-0.5 text-cyan-900">.zip</code> within ~24 hours), or check specific categories like <strong>Connections</strong>, <strong>Messages</strong>, and <strong>Jobs</strong>.
+                </li>
+                <li>
+                  Click <strong>Import New .zip</strong> in the sidebar to load the detailed archive—any extra CSVs are automatically indexed in <strong>Power Query Builder</strong>.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        {/* Raw Tables Pills */}
+        <div>
+          <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            All Parsed CSV Tables
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {dataset.meta.tables.map((t) => (
+              <span
+                key={t.key}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100/80 px-2.5 py-1 text-xs text-slate-700"
+              >
+                <span>{t.label}</span>
+                <span className="rounded bg-white px-1.5 py-0.5 text-[10px] font-semibold text-cyan-700 shadow-2xs">
+                  {t.rowCount.toLocaleString()}
+                </span>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
